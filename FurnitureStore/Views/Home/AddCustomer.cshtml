@@ -1,0 +1,83 @@
+﻿@model FurnitureStoreAPI.Models.CustomerViewModel
+
+@{
+    ViewData["Title"] = "AddCustomer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Customer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+<h1>AddCustomer</h1>
+
+<h4>CustomerViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddCustomer">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Furnitures" class="control-label"></label>
+                <input asp-for="Furnitures" class="form-control" />
+                <span asp-validation-for="Furnitures" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" id="post" value="ADD CUSTOMER DETAILS" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script>
+    $(document).ready(() => {
+        $("#post").click(() => {
+            let furnitures = $("#Furnitures").val().split(",");
+            let customer = {
+                "name": $("#Name").val(),
+                "phone": $("#Phone").val(),
+                "address": $("#Address").val(),
+                "furnitures": furnitures
+            };
+
+            $.ajax({
+               
+                url : "http://localhost:32840/api/FurnitureStore/Customers",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(customer),
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (err) {
+                    alert("Failed to Post Data");
+                }
+            })
+        })
+    }
+    )
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

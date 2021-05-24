@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Price</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+    <div class="container">
+        <input type="text" id="title" placeholder="Furniture Name">
+        <input type="text" name="price" id="price" placeholder="Furniture-Price">
+        <button class="button btn-success" id="get">Get Price By Name</button>
+        <button class="button btn-warning" id="put">Edit Price</button>
+
+    </div>
+    <script>
+        $(document).ready(()=>{
+            $("#get").click(()=>{
+                $.ajax({
+                url : "http://localhost:32840/api/FurnitureStore/Furnitures/"+$("#title").val(),
+                type : 'GET',
+                contentType: 'application/json',
+                success : function (data){
+                    $("#price").val(data.price);
+                },
+                error : function (err){
+                    alert(err);
+                }
+            })
+       })
+
+       } );
+       $(document).ready(()=>{
+            $("#put").click(()=>{
+            $.ajax({
+                url: "http://localhost:32840/api/FurnitureStore/Furnitures/"+$("#title").val(),
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({"price": $("#price").val()}),
+                success: function(response) {
+                    alert(response)
+                }
+});
+       })
+
+       } )
+
+    </script>
